@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BizEvents Maldives | Premium Event & Vendor Marketplace</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        biz: {
+                            blue: '#0F52BA',
+                            dark: '#0A1128',
+                            slate: '#1C2541',
+                            accent: '#00F5D4',
+                            gold: '#FFB703'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .glass-dark {
+            background: rgba(10, 17, 40, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-biz-blue selection:text-white">
+
+    <!-- Top Navigation -->
+    <nav class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand Logo -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="resetFilters()">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-biz-blue to-biz-slate flex items-center justify-center text-white font-bold text-xl shadow-md">
+                        B
+                    </div>
+                    <div>
+                        <span class="text-2xl font-extrabold tracking-tight text-slate-900">Biz<span class="text-biz-blue">Events</span></span>
+                        <span class="block text-[10px] font-semibold tracking-wider text-slate-400 uppercase -mt-1">by BizMania Pvt Ltd</span>
+                    </div>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                    <a href="#explore" class="text-slate-600 hover:text-biz-blue transition">Explore Vendors</a>
+                    <a href="#categories" class="text-slate-600 hover:text-biz-blue transition">Categories</a>
+                    <a href="#partner-pitch" class="text-slate-600 hover:text-biz-blue transition">Why Join?</a>
+                    <a href="#pricing" class="text-slate-600 hover:text-biz-blue transition">Pricing Tiers</a>
+                </div>
+
+                <!-- CTA Actions -->
+                <div class="flex items-center space-x-3">
+                    <button onclick="openPricingModal()" class="px-4 py-2.5 rounded-xl border border-slate-300 text-slate-700 hover:border-biz-blue hover:text-biz-blue transition text-sm font-semibold flex items-center gap-2">
+                        <i class="fa-solid fa-chart-line text-biz-blue"></i>
+                        <span>Partner Pitch Deck</span>
+                    </button>
+                    <button onclick="openRegisterModal()" class="px-5 py-2.5 rounded-xl bg-biz-blue hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20 transition text-sm font-semibold flex items-center gap-2">
+                        <i class="fa-solid fa-plus-circle"></i>
+                        <span>List Your Business</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative bg-biz-dark text-white pt-16 pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <!-- Background Gradient Glow -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-biz-blue/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-biz-accent/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-biz-blue/20 text-biz-accent border border-biz-accent/20 text-xs font-semibold tracking-wide uppercase mb-6">
+                <i class="fa-solid fa-gem text-xs"></i> The Maldives' Premier Event Network
+            </span>
+            <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight mb-6">
+                Find & Book Verified Event Planners in the Maldives
+            </h1>
+            <p class="text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto mb-10 font-normal">
+                Connecting island resorts, corporate clients, and private hosts with top-rated decorators, photographers, audio/visual engineers, and full-service planners.
+            </p>
+
+            <!-- Search & Filter Card -->
+            <div class="glass-dark rounded-2xl p-4 sm:p-5 shadow-2xl max-w-4xl mx-auto border border-white/10 text-slate-800">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <!-- Search Input -->
+                    <div class="relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="text" id="searchInput" oninput="applyFilters()" placeholder="Planner name, DJ, caterer..." class="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-biz-blue text-sm font-medium shadow-inner">
+                    </div>
+
+                    <!-- Category Selector -->
+                    <div class="relative">
+                        <i class="fa-solid fa-layer-group absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <select id="categoryFilter" onchange="applyFilters()" class="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-biz-blue text-sm font-medium appearance-none cursor-pointer">
+                            <option value="All">All Categories</option>
+                            <option value="Full Planning">Full Event Planning</option>
+                            <option value="Weddings">Wedding Specialists</option>
+                            <option value="Corporate">Corporate & Conferences</option>
+                            <option value="Sound & Light">Sound, Stage & Lighting</option>
+                            <option value="Photography">Photography & Media</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-xs"></i>
+                    </div>
+
+                    <!-- Location Selector -->
+                    <div class="relative">
+                        <i class="fa-solid fa-location-dot absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <select id="locationFilter" onchange="applyFilters()" class="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-biz-blue text-sm font-medium appearance-none cursor-pointer">
+                            <option value="All">All Locations</option>
+                            <option value="Malé & Hulhumalé">Malé & Hulhumalé</option>
+                            <option value="Resorts & Private Islands">Resorts & Private Islands</option>
+                            <option value="Addu & South">Addu & Southern Atolls</option>
+                            <option value="Nationwide">Nationwide Coverage</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-xs"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Quick Filters -->
+    <section id="categories" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
+        <div class="bg-white rounded-2xl p-4 shadow-xl border border-slate-200/80 flex items-center justify-between gap-3 overflow-x-auto hide-scrollbar">
+            <button onclick="selectCategory('All')" class="cat-pill active px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap bg-biz-blue text-white transition flex items-center gap-2">
+                <i class="fa-solid fa-border-all"></i> All Vendors
+            </button>
+            <button onclick="selectCategory('Full Planning')" class="cat-pill px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200 transition flex items-center gap-2">
+                <i class="fa-solid fa-clipboard-list text-purple-600"></i> Full Planning
+            </button>
+            <button onclick="selectCategory('Weddings')" class="cat-pill px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200 transition flex items-center gap-2">
+                <i class="fa-solid fa-heart text-pink-500"></i> Weddings
+            </button>
+            <button onclick="selectCategory('Corporate')" class="cat-pill px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200 transition flex items-center gap-2">
+                <i class="fa-solid fa-briefcase text-blue-600"></i> Corporate
+            </button>
+            <button onclick="selectCategory('Sound & Light')" class="cat-pill px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200 transition flex items-center gap-2">
+                <i class="fa-solid fa-sliders text-amber-500"></i> Sound & Light
+            </button>
+            <button onclick="selectCategory('Photography')" class="cat-pill px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200 transition flex items-center gap-2">
+                <i class="fa-solid fa-camera text-emerald-600"></i> Photography
+            </button>
+        </div>
+    </section>
+
+    <!-- Main Directory Section -->
+    <section id="explore" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <!-- Section Title & Results Count -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
+            <div>
+                <h2 class="text-2xl font-bold text-slate-900">Featured Vendors & Planners</h2>
+                <p class="text-slate-500 text-sm">Discover verified event professionals in the Maldives</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <span id="resultsCount" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-200 text-slate-700">Showing 6 Vendors</span>
+                <select id="sortFilter" onchange="applyFilters()" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-300 text-slate-700 bg-white focus:outline-none">
+                    <option value="featured">Sort: Featured First</option>
+                    <option value="rating">Sort: Highest Rated</option>
+                    <option value="reviews">Sort: Most Reviewed</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Vendor Cards Grid -->
+        <div id="vendorGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Dynamic Content Injected via JS -->
+        </div>
+    </section>
+
+    <!-- Partner Pitch & Business Model Section -->
+    <section id="partner-pitch" class="bg-gradient-to-br from-biz-slate to-biz-dark text-white py-20 px-4 sm:px-6 lg:px-8 my-12 border-y border-slate-800">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-biz-accent font-semibold text-xs tracking-widest uppercase">Internal Strategy & Partner Deck</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold mt-2 mb-4">Why BizEvents is BizMania's Next Big Engine</h2>
+                <p class="text-slate-300 text-base">Moving from transactional product e-commerce to a high-margin, scalable service directory model designed specifically for the Maldivian market dynamics.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="glass-dark p-8 rounded-2xl border border-white/10 hover:border-biz-accent/40 transition">
+                    <div class="w-12 h-12 rounded-xl bg-biz-blue/30 text-biz-accent flex items-center justify-center text-xl font-bold mb-6">
+                        <i class="fa-solid fa-ban"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Zero Direct-Deal Leakage</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Rather than trying to collect risky transaction commissions (where clients bypass platforms to WhatsApp), we monetise via <strong>Freemium Subscriptions</strong> and <strong>Promoted Search Placements</strong>.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="glass-dark p-8 rounded-2xl border border-white/10 hover:border-biz-accent/40 transition">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl font-bold mb-6">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">High Direct Leads Value</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Vendors gladly pay MVR 500 – 1,500/month because a single wedding or corporate gig produces MVR 30,000 to MVR 200,000+ in revenue for them.
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="glass-dark p-8 rounded-2xl border border-white/10 hover:border-biz-accent/40 transition">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl font-bold mb-6">
+                        <i class="fa-solid fa-arrows-spin"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Cross-Selling Equipment</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        BizMania Pvt Ltd can directly rent or sell audio equipment, projectors, and event merchandise directly to listed vendors on the platform.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Tier & Vendor Monetization -->
+    <section id="pricing" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <h2 class="text-3xl font-extrabold text-slate-900">Simple Vendor Membership Plans</h2>
+            <p class="text-slate-500 mt-2">Transparent pricing built to help Maldivian event businesses grow.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Freemium Tier -->
+            <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl transition relative flex flex-col justify-between">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Starter</span>
+                    <h3 class="text-2xl font-bold text-slate-900 mt-1">Freemium</h3>
+                    <div class="my-6">
+                        <span class="text-4xl font-extrabold text-slate-900">MVR 0</span>
+                        <span class="text-slate-500 text-sm">/ forever</span>
+                    </div>
+                    <ul class="space-y-4 text-sm text-slate-600 mb-8">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-500"></i> Standard Directory Listing</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-500"></i> Portfolio Gallery (Up to 4 photos)</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-500"></i> Basic Contact Form</li>
+                        <li class="flex items-center gap-3 text-slate-400"><i class="fa-solid fa-xmark"></i> Direct WhatsApp Lead Button</li>
+                        <li class="flex items-center gap-3 text-slate-400"><i class="fa-solid fa-xmark"></i> Top Search Priority</li>
+                    </ul>
+                </div>
+                <button onclick="openRegisterModal('Freemium')" class="w-full py-3 rounded-xl border border-slate-300 font-semibold text-slate-700 hover:bg-slate-50 transition">Get Started Free</button>
+            </div>
+
+            <!-- Featured Tier -->
+            <div class="bg-slate-900 text-white rounded-3xl p-8 border-2 border-biz-blue shadow-2xl relative flex flex-col justify-between transform md:-translate-y-4">
+                <div class="absolute -top-4 right-8 bg-gradient-to-r from-biz-blue to-cyan-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">
+                    Most Popular
+                </div>
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-biz-accent">Growth</span>
+                    <h3 class="text-2xl font-bold text-white mt-1">Featured Vendor</h3>
+                    <div class="my-6">
+                        <span class="text-4xl font-extrabold text-white">MVR 750</span>
+                        <span class="text-slate-400 text-sm">/ month</span>
+                    </div>
+                    <ul class="space-y-4 text-sm text-slate-300 mb-8">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-biz-accent"></i> Priority Search Placement</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-biz-accent"></i> Verified Partner Badge</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-biz-accent"></i> Direct WhatsApp Inquiry Button</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-biz-accent"></i> Extended Portfolio (12+ photos)</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-biz-accent"></i> Social Media Mention by BizMania</li>
+                    </ul>
+                </div>
+                <button onclick="openRegisterModal('Featured')" class="w-full py-3 rounded-xl bg-biz-blue hover:bg-blue-600 font-semibold text-white transition shadow-lg">Start 14-Day Free Trial</button>
+            </div>
+
+            <!-- Top Banner Tier -->
+            <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl transition relative flex flex-col justify-between">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-amber-500">Maximum Reach</span>
+                    <h3 class="text-2xl font-bold text-slate-900 mt-1">Top Sponsor Banner</h3>
+                    <div class="my-6">
+                        <span class="text-4xl font-extrabold text-slate-900">MVR 1,800</span>
+                        <span class="text-slate-500 text-sm">/ month</span>
+                    </div>
+                    <ul class="space-y-4 text-sm text-slate-600 mb-8">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-500"></i> Everything in Featured</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-500"></i> Sticky Hero Banner Spot on Homepage</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-500"></i> Category Header Takeover</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-500"></i> Monthly Direct Lead Analytics</li>
+                    </ul>
+                </div>
+                <button onclick="openRegisterModal('Banner')" class="w-full py-3 rounded-xl border border-slate-300 font-semibold text-slate-700 hover:bg-slate-50 transition">Apply for Sponsorship</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vendor Details Modal -->
+    <div id="vendorModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl transform transition-all relative my-8">
+            <button onclick="closeVendorModal()" class="absolute top-4 right-4 z-10 bg-black/50 hover:bg-black/70 text-white w-9 h-9 rounded-full flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="vendorModalContent">
+                <!-- Injected via JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Business Registration Modal -->
+    <div id="registerModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl relative">
+            <button onclick="closeRegisterModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-biz-blue/10 text-biz-blue rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl font-bold">
+                    <i class="fa-solid fa-store"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-900">List Your Event Business</h3>
+                <p class="text-slate-500 text-sm">Join the top event providers network in the Maldives</p>
+            </div>
+
+            <form onsubmit="handleVendorSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Business Name</label>
+                    <input type="text" required placeholder="e.g. Island Sound Systems" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-biz-blue focus:outline-none text-sm">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Category</label>
+                        <select class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-biz-blue focus:outline-none text-sm">
+                            <option>Full Planning</option>
+                            <option>Weddings</option>
+                            <option>Corporate</option>
+                            <option>Sound & Light</option>
+                            <option>Photography</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Plan Tier</label>
+                        <select id="planSelect" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-biz-blue focus:outline-none text-sm">
+                            <option value="Freemium">Freemium (MVR 0)</option>
+                            <option value="Featured" selected>Featured (MVR 750/mo)</option>
+                            <option value="Banner">Top Banner (MVR 1,800/mo)</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">WhatsApp Phone Number</label>
+                    <input type="tel" required placeholder="+960 7XXXXXX" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-biz-blue focus:outline-none text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Location / Atoll</label>
+                    <input type="text" required placeholder="e.g. Malé, Hulhumalé, Ari Atoll" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-biz-blue focus:outline-none text-sm">
+                </div>
+                <button type="submit" class="w-full py-3.5 rounded-xl bg-biz-blue hover:bg-blue-700 text-white font-semibold text-sm shadow-lg transition mt-2">
+                    Submit Registration Request
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Partner Deck Pitch Modal -->
+    <div id="pricingModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-8 shadow-2xl relative">
+            <button onclick="closePricingModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-biz-blue text-white flex items-center justify-center font-bold">
+                    <i class="fa-solid fa-chart-pie"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-slate-900">BizEvents Business Model Pitch</h3>
+                    <p class="text-xs text-slate-500">Prepared for BizMania Pvt Ltd Executive Review</p>
+                </div>
+            </div>
+
+            <div class="space-y-4 text-sm text-slate-600">
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <h4 class="font-bold text-slate-900 mb-1"><i class="fa-solid fa-calculator text-biz-blue mr-2"></i> Revenue Projection (Year 1)</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        • <strong>50 Free Listings</strong> (Onboarding Density)<br>
+                        • <strong>20 Featured Listings</strong> @ MVR 750/mo = MVR 15,000 / month<br>
+                        • <strong>5 Banner Sponsors</strong> @ MVR 1,800/mo = MVR 9,000 / month<br>
+                        <span class="text-emerald-600 font-bold block mt-1">Projected MRR: ~MVR 24,000 / month with ~85% profit margin.</span>
+                    </p>
+                </div>
+
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <h4 class="font-bold text-slate-900 mb-1"><i class="fa-solid fa-shield-halved text-biz-blue mr-2"></i> Risk Mitigation</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        By avoiding transaction percentages, we remove the operational headache of verifying offline client contracts in the Maldives, while ensuring consistent, predictable recurring subscription revenue.
+                    </p>
+                </div>
+            </div>
+
+            <button onclick="closePricingModal()" class="w-full mt-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-sm">
+                Close Pitch Deck
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-lg bg-biz-blue text-white font-bold flex items-center justify-center text-sm">
+                    B
+                </div>
+                <span class="text-lg font-bold text-white">BizEvents Maldives</span>
+            </div>
+            <p class="text-xs text-slate-500">© 2026 BizMania Pvt Ltd. Built for the Maldivian Event Industry.</p>
+            <div class="flex space-x-6 text-sm">
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-instagram text-lg"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-facebook text-lg"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-whatsapp text-lg"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample Maldivian Vendors Data
+        const vendors = [
+            {
+                id: 1,
+                name: "Island Vows & Events Maldives",
+                category: "Weddings",
+                badge: "Featured",
+                rating: 4.9,
+                reviewsCount: 38,
+                location: "Malé & Hulhumalé",
+                atoll: "Kaafu Atoll",
+                startingPrice: "MVR 15,000",
+                phone: "9607901234",
+                image: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80",
+                description: "Specializing in luxury beach weddings, island vow renewals, and bespoke decor installations across Malé and resort islands.",
+                portfolio: [
+                    "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=600&q=80"
+                ],
+                services: ["Destination Weddings", "Beach Decor", "Floral Arrangements", "Resort Setup Logistics"]
+            },
+            {
+                id: 2,
+                name: "Dhivehi Sound & Light Masters",
+                category: "Sound & Light",
+                badge: "Top Sponsor",
+                rating: 5.0,
+                reviewsCount: 52,
+                location: "Nationwide",
+                atoll: "Central Atolls",
+                startingPrice: "MVR 8,500",
+                phone: "9607895544",
+                image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80",
+                description: "Concert-grade sound systems, LED stage walls, and intelligent lighting setups for corporate galas and music events.",
+                portfolio: [
+                    "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=600&q=80"
+                ],
+                services: ["Stage Trussing", "Line Array Audio", "LED Screens", "Live Event Engineering"]
+            },
+            {
+                id: 3,
+                name: "Apex Corporate Solutions MV",
+                category: "Corporate",
+                badge: "Featured",
+                rating: 4.8,
+                reviewsCount: 24,
+                location: "Malé & Hulhumalé",
+                atoll: "Malé City",
+                startingPrice: "MVR 20,000",
+                phone: "9607771122",
+                image: "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80",
+                description: "End-to-end corporate event planning, AGM management, brand launch activations, and executive retreat coordination.",
+                portfolio: [
+                    "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1431540015161-0bf868a2d407?auto=format&fit=crop&w=600&q=80"
+                ],
+                services: ["Corporate Conferences", "Exhibition Stalls", "Press Conferences", "VIP Protocol"]
+            },
+            {
+                id: 4,
+                name: "Atoll Cinema & Photography",
+                category: "Photography",
+                badge: "Standard",
+                rating: 4.7,
+                reviewsCount: 19,
+                location: "Resorts & Private Islands",
+                atoll: "Ari Atoll",
+                startingPrice: "MVR 6,000",
+                phone: "9607663344",
+                image: "https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=800&q=80",
+                description: "Drone videography, underwater event capture, and cinematic wedding highlight reels for luxury island events.",
+                portfolio: [
+                    "https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=600&q=80"
+                ],
+                services: ["4K Drone Footage", "Wedding Videography", "Event Highlights", "Photo Booths"]
+            },
+            {
+                id: 5,
+                name: "Blue Horizon Planners",
+                category: "Full Planning",
+                badge: "Featured",
+                rating: 4.9,
+                reviewsCount: 41,
+                location: "Nationwide",
+                atoll: "Kaafu / Nationwide",
+                startingPrice: "MVR 25,000",
+                phone: "9607558899",
+                image: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=800&q=80",
+                description: "Full turnkey event execution from venue selection to vendor coordination for grand celebrations across the Maldives.",
+                portfolio: [
+                    "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=600&q=80"
+                ],
+                services: ["Full Event Management", "Catering Coordination", "Island Transport", "Artist Booking"]
+            },
+            {
+                id: 6,
+                name: "Southern Beats & Stage",
+                category: "Sound & Light",
+                badge: "Standard",
+                rating: 4.6,
+                reviewsCount: 15,
+                location: "Addu & South",
+                atoll: "Addu Atoll",
+                startingPrice: "MVR 5,000",
+                phone: "9607441100",
+                image: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=800&q=80",
+                description: "Providing quality audio setups, ambient lighting, and local DJ management in the Southern atolls.",
+                portfolio: [
+                    "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=600&q=80"
+                ],
+                services: ["DJ Equipment Rental", "Private Party Audio", "Acoustic Stage Setups"]
+            }
+        ];
+
+        let selectedCategory = "All";
+
+        // Render Vendor Cards
+        function renderVendors(items) {
+            const grid = document.getElementById('vendorGrid');
+            const countSpan = document.getElementById('resultsCount');
+            
+            countSpan.innerText = `Showing ${items.length} Vendors`;
+            grid.innerHTML = '';
+
+            if (items.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <div class="w-16 h-16 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                            <i class="fa-solid fa-search"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800">No matching vendors found</h3>
+                        <p class="text-slate-500 text-sm mt-1">Try adjusting your category or location search filters.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            items.forEach(v => {
+                const badgeColor = v.badge === 'Top Sponsor' 
+                    ? 'bg-amber-100 text-amber-800 border-amber-300' 
+                    : v.badge === 'Featured' 
+                    ? 'bg-biz-blue/10 text-biz-blue border-biz-blue/20' 
+                    : 'bg-slate-100 text-slate-600 border-slate-200';
+
+                const cardHTML = `
+                    <div class="bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+                        <div>
+                            <!-- Card Image & Badge -->
+                            <div class="relative h-48 overflow-hidden bg-slate-100">
+                                <img src="${v.image}" alt="${v.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full border ${badgeColor} text-[11px] font-bold shadow-sm backdrop-blur-md">
+                                    <i class="fa-solid fa-certificate mr-1"></i>${v.badge}
+                                </span>
+                                <span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg bg-black/60 backdrop-blur-md text-white text-xs font-semibold">
+                                    From ${v.startingPrice}
+                                </span>
+                            </div>
+
+                            <!-- Card Body -->
+                            <div class="p-6">
+                                <div class="flex items-center justify-between text-xs text-slate-500 font-medium mb-2">
+                                    <span class="text-biz-blue font-bold uppercase tracking-wider">${v.category}</span>
+                                    <span><i class="fa-solid fa-location-dot mr-1"></i>${v.location}</span>
+                                </div>
+                                
+                                <h3 class="text-lg font-bold text-slate-900 group-hover:text-biz-blue transition">${v.name}</h3>
+                                <p class="text-slate-500 text-xs line-clamp-2 mt-2 leading-relaxed">${v.description}</p>
+
+                                <!-- Rating & Review -->
+                                <div class="flex items-center space-x-2 mt-4 pt-4 border-t border-slate-100">
+                                    <div class="flex text-amber-400 text-xs">
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                    <span class="text-xs font-bold text-slate-800">${v.rating}</span>
+                                    <span class="text-xs text-slate-400">(${v.reviewsCount} reviews)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Action Buttons -->
+                        <div class="px-6 pb-6 pt-2 flex items-center space-x-2">
+                            <button onclick="openVendorModal(${v.id})" class="flex-1 py-2.5 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-50 font-semibold text-xs transition">
+                                View Profile
+                            </button>
+                            <a href="https://wa.me/${v.phone}?text=Hi%20${encodeURIComponent(v.name)},%20I%20found%20your%20listing%20on%20BizEvents%20Maldives!" target="_blank" class="px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-semibold text-xs transition flex items-center justify-center gap-1.5 shadow-md shadow-emerald-500/20">
+                                <i class="fa-brands fa-whatsapp text-sm"></i> Direct Inquiry
+                            </a>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += cardHTML;
+            });
+        }
+
+        // Apply Filters
+        function applyFilters() {
+            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+            const categoryVal = document.getElementById('categoryFilter').value;
+            const locationVal = document.getElementById('locationFilter').value;
+            const sortVal = document.getElementById('sortFilter').value;
+
+            let filtered = vendors.filter(v => {
+                const matchesSearch = v.name.toLowerCase().includes(searchVal) || v.description.toLowerCase().includes(searchVal);
+                const matchesCategory = (categoryVal === 'All' && selectedCategory === 'All') || 
+                                        (categoryVal !== 'All' ? v.category === categoryVal : true) &&
+                                        (selectedCategory !== 'All' ? v.category === selectedCategory : true);
+                const matchesLocation = locationVal === 'All' || v.location === locationVal;
+                
+                return matchesSearch && matchesCategory && matchesLocation;
+            });
+
+            // Sorting logic
+            if (sortVal === 'rating') {
+                filtered.sort((a, b) => b.rating - a.rating);
+            } else if (sortVal === 'reviews') {
+                filtered.sort((a, b) => b.reviewsCount - a.reviewsCount);
+            }
+
+            renderVendors(filtered);
+        }
+
+        // Select Category Pill
+        function selectCategory(cat) {
+            selectedCategory = cat;
+            document.getElementById('categoryFilter').value = cat;
+
+            // Update UI active state on pills
+            document.querySelectorAll('.cat-pill').forEach(btn => {
+                btn.classList.remove('bg-biz-blue', 'text-white');
+                btn.classList.add('bg-slate-100', 'text-slate-600');
+            });
+            event.currentTarget.classList.remove('bg-slate-100', 'text-slate-600');
+            event.currentTarget.classList.add('bg-biz-blue', 'text-white');
+
+            applyFilters();
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('categoryFilter').value = 'All';
+            document.getElementById('locationFilter').value = 'All';
+            selectedCategory = 'All';
+            applyFilters();
+        }
+
+        // Vendor Profile Modal
+        function openVendorModal(id) {
+            const vendor = vendors.find(v => v.id === id);
+            if (!vendor) return;
+
+            const modalContent = document.getElementById('vendorModalContent');
+            modalContent.innerHTML = `
+                <div class="relative h-64 bg-slate-900">
+                    <img src="${vendor.image}" class="w-full h-full object-cover opacity-80">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 right-6 text-white">
+                        <span class="px-2.5 py-1 rounded-full bg-biz-blue text-white text-xs font-bold uppercase tracking-wider mb-2 inline-block">${vendor.category}</span>
+                        <h2 class="text-2xl font-extrabold">${vendor.name}</h2>
+                        <p class="text-slate-300 text-xs mt-1"><i class="fa-solid fa-location-dot mr-1"></i> ${vendor.location} (${vendor.atoll})</p>
+                    </div>
+                </div>
+
+                <div class="p-6 space-y-6">
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">About Vendor</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">${vendor.description}</p>
+                    </div>
+
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Services Offered</h4>
+                        <div class="flex flex-wrap gap-2">
+                            ${vendor.services.map(s => `<span class="px-3 py-1 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold">${s}</span>`).join('')}
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Portfolio Preview</h4>
+                        <div class="grid grid-cols-2 gap-3">
+                            ${vendor.portfolio.map(img => `<img src="${img}" class="rounded-xl h-32 w-full object-cover border border-slate-200">`).join('')}
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                        <div>
+                            <span class="block text-xs text-slate-400 font-medium">Starting Package</span>
+                            <span class="text-lg font-extrabold text-slate-900">${vendor.startingPrice}</span>
+                        </div>
+                        <a href="https://wa.me/${vendor.phone}?text=Hi%20${encodeURIComponent(vendor.name)},%20I%20am%20interested%20in%20your%20services!" target="_blank" class="px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm shadow-lg flex items-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp Direct
+                        </a>
+                    </div>
+                </div>
+            `;
+            document.getElementById('vendorModal').classList.remove('hidden');
+        }
+
+        function closeVendorModal() {
+            document.getElementById('vendorModal').classList.add('hidden');
+        }
+
+        // Register Modal
+        function openRegisterModal(tier = 'Featured') {
+            if(tier) {
+                document.getElementById('planSelect').value = tier;
+            }
+            document.getElementById('registerModal').classList.remove('hidden');
+        }
+
+        function closeRegisterModal() {
+            document.getElementById('registerModal').classList.add('hidden');
+        }
+
+        function handleVendorSubmit(e) {
+            e.preventDefault();
+            alert('Thank you! Your vendor application for BizEvents Maldives has been submitted. Our team from BizMania Pvt Ltd will contact you via WhatsApp shortly.');
+            closeRegisterModal();
+        }
+
+        // Pricing Modal
+        function openPricingModal() {
+            document.getElementById('pricingModal').classList.remove('hidden');
+        }
+
+        function closePricingModal() {
+            document.getElementById('pricingModal').classList.add('hidden');
+        }
+
+        // Initial Load
+        window.onload = function() {
+            renderVendors(vendors);
+        };
+    </script>
+</body>
+</html>
