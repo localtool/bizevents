@@ -2,10 +2,15 @@
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>BizEvents Maldives | Premium Event & Vendor Marketplace</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Faster third-party connections -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Font Inter -->
@@ -44,6 +49,309 @@
         }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* =========================================================
+           Mobile / iOS / Android optimization layer
+           ========================================================= */
+        html {
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+            scroll-padding-top: 76px;
+            overflow-x: hidden;
+        }
+
+        body {
+            min-height: 100%;
+            min-height: 100dvh;
+            overflow-x: hidden;
+            overscroll-behavior-x: none;
+            -webkit-tap-highlight-color: transparent;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        *, *::before, *::after {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        img {
+            max-width: 100%;
+            -webkit-user-drag: none;
+        }
+
+        button, a, select, input {
+            touch-action: manipulation;
+        }
+
+        input, select, textarea, button {
+            font: inherit;
+        }
+
+        /* Prevent iOS Safari from zooming inputs and causing layout jumps. */
+        @media (max-width: 767px) {
+            input, select, textarea {
+                font-size: 16px !important;
+            }
+
+            nav {
+                padding-top: env(safe-area-inset-top);
+            }
+
+            nav .max-w-7xl {
+                padding-left: max(1rem, env(safe-area-inset-left));
+                padding-right: max(1rem, env(safe-area-inset-right));
+            }
+
+            nav .h-20 {
+                height: 4rem;
+            }
+
+            nav .text-2xl {
+                font-size: 1.25rem;
+            }
+
+            nav .text-\[10px\] {
+                font-size: 8px;
+            }
+
+            /* Hide desktop CTAs on narrow screens; keep the page uncluttered. */
+            nav > div > div > div:last-child {
+                gap: .4rem;
+            }
+
+            nav > div > div > div:last-child button:first-child {
+                display: none;
+            }
+
+            nav > div > div > div:last-child button:last-child {
+                min-height: 44px;
+                min-width: 44px;
+                padding: .65rem .8rem;
+            }
+
+            nav > div > div > div:last-child button:last-child span {
+                display: none;
+            }
+
+            /* Hero */
+            section.bg-biz-dark {
+                padding-top: 2.75rem;
+                padding-bottom: 4.5rem;
+            }
+
+            section.bg-biz-dark h1 {
+                font-size: clamp(2rem, 9vw, 3rem);
+                line-height: 1.08;
+                text-wrap: balance;
+            }
+
+            section.bg-biz-dark p {
+                font-size: 1rem;
+                line-height: 1.55;
+            }
+
+            /* Reduce expensive giant blur areas on mobile. */
+            section.bg-biz-dark > .blur-3xl {
+                filter: blur(45px);
+                opacity: .7;
+            }
+
+            /* Search controls: comfortable touch targets. */
+            #searchInput,
+            #categoryFilter,
+            #locationFilter {
+                min-height: 50px;
+            }
+
+            /* Horizontal category rail with native momentum scrolling. */
+            #categories {
+                margin-top: -2rem;
+                padding-left: max(1rem, env(safe-area-inset-left));
+                padding-right: max(1rem, env(safe-area-inset-right));
+            }
+
+            #categories > div {
+                justify-content: flex-start;
+                overflow-x: auto;
+                overscroll-behavior-x: contain;
+                -webkit-overflow-scrolling: touch;
+                scroll-snap-type: x proximity;
+                padding: .65rem;
+            }
+
+            #categories .cat-pill {
+                min-height: 44px;
+                flex: 0 0 auto;
+                scroll-snap-align: start;
+            }
+
+            /* Main content spacing. */
+            #explore {
+                padding-top: 3rem;
+                padding-bottom: 3rem;
+            }
+
+            #explore > div:first-child {
+                margin-bottom: 1.25rem;
+            }
+
+            #resultsCount,
+            #sortFilter {
+                min-height: 40px;
+            }
+
+            #vendorGrid {
+                gap: 1rem;
+            }
+
+            /* Vendor cards: avoid hover-only effects on touch devices. */
+            #vendorGrid > div {
+                min-width: 0;
+            }
+
+            #vendorGrid img {
+                content-visibility: auto;
+            }
+
+            #vendorGrid button,
+            #vendorGrid a {
+                min-height: 44px;
+            }
+
+            /* Pricing / strategy sections. */
+            #partner-pitch,
+            #pricing {
+                padding-top: 3.5rem;
+                padding-bottom: 3.5rem;
+            }
+
+            #partner-pitch {
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            #partner-pitch .grid,
+            #pricing .grid {
+                gap: 1rem;
+            }
+
+            #partner-pitch .glass-dark,
+            #pricing .rounded-3xl {
+                padding: 1.25rem;
+            }
+
+            /* Keep pricing cards from creating sideways overflow. */
+            #pricing .rounded-3xl {
+                min-width: 0;
+            }
+
+            /* Modals become mobile-friendly bottom sheets/full-height panels. */
+            #vendorModal,
+            #registerModal,
+            #pricingModal {
+                align-items: flex-end;
+                justify-content: center;
+                padding:
+                    max(.75rem, env(safe-area-inset-top))
+                    max(.75rem, env(safe-area-inset-right))
+                    max(.75rem, env(safe-area-inset-bottom))
+                    max(.75rem, env(safe-area-inset-left));
+                overscroll-behavior: contain;
+            }
+
+            #vendorModal > div,
+            #registerModal > div,
+            #pricingModal > div {
+                width: 100%;
+                max-width: 100%;
+                max-height: calc(100dvh - 1.5rem);
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                overscroll-behavior: contain;
+                border-radius: 1.5rem 1.5rem 1rem 1rem;
+            }
+
+            #vendorModalContent > div:first-child {
+                height: 13rem;
+            }
+
+            #vendorModalContent .p-6 {
+                padding: 1.1rem;
+            }
+
+            #vendorModalContent .pt-4 {
+                gap: .75rem;
+                align-items: flex-end;
+            }
+
+            #vendorModalContent .pt-4 > a {
+                min-height: 46px;
+                padding-left: 1rem;
+                padding-right: 1rem;
+                white-space: nowrap;
+            }
+
+            #registerModal > div,
+            #pricingModal > div {
+                padding: 1.25rem;
+            }
+
+            #registerModal form .grid {
+                grid-template-columns: 1fr;
+            }
+
+            #registerModal form button,
+            #pricingModal button {
+                min-height: 48px;
+            }
+
+            /* Footer stacks cleanly on phones. */
+            footer {
+                padding-bottom: calc(3rem + env(safe-area-inset-bottom));
+            }
+
+            footer > div {
+                text-align: center;
+            }
+        }
+
+        /* Only enable hover motion on devices that actually support hover. */
+        @media (hover: none), (pointer: coarse) {
+            .hover\:shadow-xl:hover,
+            .hover\:shadow-2xl:hover {
+                box-shadow: inherit;
+            }
+
+            .group:hover img {
+                transform: none !important;
+            }
+        }
+
+        /* Prevent accidental body scrolling while a modal is open. */
+        body.modal-open {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+        }
+
+        /* Better keyboard/focus behavior without relying on mouse hover. */
+        :focus-visible {
+            outline: 3px solid rgba(15, 82, 186, .35);
+            outline-offset: 2px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto !important;
+            }
+
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased selection:bg-biz-blue selection:text-white">
@@ -109,7 +417,7 @@
                     <!-- Search Input -->
                     <div class="relative">
                         <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input type="text" id="searchInput" oninput="applyFilters()" placeholder="Planner name, DJ, caterer..." class="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-biz-blue text-sm font-medium shadow-inner">
+                        <input type="text" id="searchInput" placeholder="Planner name, DJ, caterer..." class="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-biz-blue text-sm font-medium shadow-inner">
                     </div>
 
                     <!-- Category Selector -->
@@ -146,22 +454,22 @@
     <!-- Category Quick Filters -->
     <section id="categories" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
         <div class="bg-white rounded-2xl p-4 shadow-xl border border-slate-200/80 flex items-center justify-between gap-3 overflow-x-auto hide-scrollbar">
-            <button onclick="selectCategory('All')" class="cat-pill active px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap bg-biz-blue text-white transition flex items-center gap-2">
+            <button onclick="selectCategory('All', this)" class="cat-pill active px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap bg-biz-blue text-white transition flex items-center gap-2">
                 <i class="fa-solid fa-border-all"></i> All Vendors
             </button>
-            <button onclick="selectCategory('Full Planning')" class="cat-pill px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200 transition flex items-center gap-2">
+            <button onclick="selectCategory('Full Planning', this)" class="cat-pill px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200 transition flex items-center gap-2">
                 <i class="fa-solid fa-clipboard-list text-purple-600"></i> Full Planning
             </button>
-            <button onclick="selectCategory('Weddings')" class="cat-pill px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200 transition flex items-center gap-2">
+            <button onclick="selectCategory('Weddings', this)" class="cat-pill px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200 transition flex items-center gap-2">
                 <i class="fa-solid fa-heart text-pink-500"></i> Weddings
             </button>
-            <button onclick="selectCategory('Corporate')" class="cat-pill px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200 transition flex items-center gap-2">
+            <button onclick="selectCategory('Corporate', this)" class="cat-pill px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200 transition flex items-center gap-2">
                 <i class="fa-solid fa-briefcase text-blue-600"></i> Corporate
             </button>
-            <button onclick="selectCategory('Sound & Light')" class="cat-pill px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200 transition flex items-center gap-2">
+            <button onclick="selectCategory('Sound & Light', this)" class="cat-pill px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200 transition flex items-center gap-2">
                 <i class="fa-solid fa-sliders text-amber-500"></i> Sound & Light
             </button>
-            <button onclick="selectCategory('Photography')" class="cat-pill px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200 transition flex items-center gap-2">
+            <button onclick="selectCategory('Photography', this)" class="cat-pill px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200 transition flex items-center gap-2">
                 <i class="fa-solid fa-camera text-emerald-600"></i> Photography
             </button>
         </div>
@@ -558,9 +866,8 @@
         function renderVendors(items) {
             const grid = document.getElementById('vendorGrid');
             const countSpan = document.getElementById('resultsCount');
-            
-            countSpan.innerText = `Showing ${items.length} Vendors`;
-            grid.innerHTML = '';
+
+            countSpan.textContent = `Showing ${items.length} Vendor${items.length === 1 ? '' : 's'}`;
 
             if (items.length === 0) {
                 grid.innerHTML = `
@@ -575,19 +882,21 @@
                 return;
             }
 
-            items.forEach(v => {
-                const badgeColor = v.badge === 'Top Sponsor' 
-                    ? 'bg-amber-100 text-amber-800 border-amber-300' 
-                    : v.badge === 'Featured' 
-                    ? 'bg-biz-blue/10 text-biz-blue border-biz-blue/20' 
+            // Build once and replace once instead of repeatedly using innerHTML +=.
+            grid.innerHTML = items.map(v => {
+                const badgeColor = v.badge === 'Top Sponsor'
+                    ? 'bg-amber-100 text-amber-800 border-amber-300'
+                    : v.badge === 'Featured'
+                    ? 'bg-biz-blue/10 text-biz-blue border-biz-blue/20'
                     : 'bg-slate-100 text-slate-600 border-slate-200';
 
-                const cardHTML = `
+                return `
                     <div class="bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
                         <div>
-                            <!-- Card Image & Badge -->
                             <div class="relative h-48 overflow-hidden bg-slate-100">
-                                <img src="${v.image}" alt="${v.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                <img loading="lazy" decoding="async" src="${v.image}" alt="${v.name}" width="800" height="480"
+                                     loading="lazy" decoding="async"
+                                     class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                                 <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full border ${badgeColor} text-[11px] font-bold shadow-sm backdrop-blur-md">
                                     <i class="fa-solid fa-certificate mr-1"></i>${v.badge}
                                 </span>
@@ -596,17 +905,15 @@
                                 </span>
                             </div>
 
-                            <!-- Card Body -->
                             <div class="p-6">
-                                <div class="flex items-center justify-between text-xs text-slate-500 font-medium mb-2">
+                                <div class="flex items-center justify-between text-xs text-slate-500 font-medium mb-2 gap-2">
                                     <span class="text-biz-blue font-bold uppercase tracking-wider">${v.category}</span>
-                                    <span><i class="fa-solid fa-location-dot mr-1"></i>${v.location}</span>
+                                    <span class="truncate"><i class="fa-solid fa-location-dot mr-1"></i>${v.location}</span>
                                 </div>
-                                
+
                                 <h3 class="text-lg font-bold text-slate-900 group-hover:text-biz-blue transition">${v.name}</h3>
                                 <p class="text-slate-500 text-xs line-clamp-2 mt-2 leading-relaxed">${v.description}</p>
 
-                                <!-- Rating & Review -->
                                 <div class="flex items-center space-x-2 mt-4 pt-4 border-t border-slate-100">
                                     <div class="flex text-amber-400 text-xs">
                                         <i class="fa-solid fa-star"></i>
@@ -617,60 +924,67 @@
                             </div>
                         </div>
 
-                        <!-- Card Action Buttons -->
                         <div class="px-6 pb-6 pt-2 flex items-center space-x-2">
-                            <button onclick="openVendorModal(${v.id})" class="flex-1 py-2.5 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-50 font-semibold text-xs transition">
+                            <button type="button" onclick="openVendorModal(${v.id})"
+                                    class="flex-1 min-w-0 py-2.5 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-50 font-semibold text-xs transition">
                                 View Profile
                             </button>
-                            <a href="https://wa.me/${v.phone}?text=Hi%20${encodeURIComponent(v.name)},%20I%20found%20your%20listing%20on%20BizEvents%20Maldives!" target="_blank" class="px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-semibold text-xs transition flex items-center justify-center gap-1.5 shadow-md shadow-emerald-500/20">
-                                <i class="fa-brands fa-whatsapp text-sm"></i> Direct Inquiry
+                            <a href="https://wa.me/${v.phone}?text=Hi%20${encodeURIComponent(v.name)},%20I%20found%20your%20listing%20on%20BizEvents%20Maldives!"
+                               target="_blank" rel="noopener noreferrer"
+                               class="min-w-0 px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-semibold text-xs transition flex items-center justify-center gap-1.5 shadow-md shadow-emerald-500/20">
+                                <i class="fa-brands fa-whatsapp text-sm"></i><span>Direct Inquiry</span>
                             </a>
                         </div>
                     </div>
                 `;
-                grid.innerHTML += cardHTML;
-            });
+            }).join('');
         }
 
         // Apply Filters
         function applyFilters() {
-            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+            const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
             const categoryVal = document.getElementById('categoryFilter').value;
             const locationVal = document.getElementById('locationFilter').value;
             const sortVal = document.getElementById('sortFilter').value;
 
             let filtered = vendors.filter(v => {
-                const matchesSearch = v.name.toLowerCase().includes(searchVal) || v.description.toLowerCase().includes(searchVal);
-                const matchesCategory = (categoryVal === 'All' && selectedCategory === 'All') || 
-                                        (categoryVal !== 'All' ? v.category === categoryVal : true) &&
-                                        (selectedCategory !== 'All' ? v.category === selectedCategory : true);
+                const searchable = `${v.name} ${v.description} ${v.category} ${v.location} ${v.atoll}`.toLowerCase();
+                const matchesSearch = !searchVal || searchable.includes(searchVal);
+                const matchesCategory =
+                    (categoryVal === 'All' || v.category === categoryVal) &&
+                    (selectedCategory === 'All' || v.category === selectedCategory);
                 const matchesLocation = locationVal === 'All' || v.location === locationVal;
-                
+
                 return matchesSearch && matchesCategory && matchesLocation;
             });
 
-            // Sorting logic
             if (sortVal === 'rating') {
                 filtered.sort((a, b) => b.rating - a.rating);
             } else if (sortVal === 'reviews') {
                 filtered.sort((a, b) => b.reviewsCount - a.reviewsCount);
+            } else {
+                // Featured/top-sponsor vendors first while preserving source order.
+                const rank = { 'Top Sponsor': 0, 'Featured': 1, 'Standard': 2 };
+                filtered.sort((a, b) => (rank[a.badge] ?? 9) - (rank[b.badge] ?? 9));
             }
 
             renderVendors(filtered);
         }
 
         // Select Category Pill
-        function selectCategory(cat) {
+        function selectCategory(cat, button) {
             selectedCategory = cat;
             document.getElementById('categoryFilter').value = cat;
 
-            // Update UI active state on pills
             document.querySelectorAll('.cat-pill').forEach(btn => {
                 btn.classList.remove('bg-biz-blue', 'text-white');
                 btn.classList.add('bg-slate-100', 'text-slate-600');
             });
-            event.currentTarget.classList.remove('bg-slate-100', 'text-slate-600');
-            event.currentTarget.classList.add('bg-biz-blue', 'text-white');
+
+            if (button) {
+                button.classList.remove('bg-slate-100', 'text-slate-600');
+                button.classList.add('bg-biz-blue', 'text-white');
+            }
 
             applyFilters();
         }
@@ -679,11 +993,32 @@
             document.getElementById('searchInput').value = '';
             document.getElementById('categoryFilter').value = 'All';
             document.getElementById('locationFilter').value = 'All';
+            document.getElementById('sortFilter').value = 'featured';
             selectedCategory = 'All';
+
+            document.querySelectorAll('.cat-pill').forEach(btn => {
+                btn.classList.remove('bg-biz-blue', 'text-white');
+                btn.classList.add('bg-slate-100', 'text-slate-600');
+            });
+
+            const allButton = document.querySelector('.cat-pill');
+            if (allButton) {
+                allButton.classList.remove('bg-slate-100', 'text-slate-600');
+                allButton.classList.add('bg-biz-blue', 'text-white');
+            }
+
             applyFilters();
         }
 
         // Vendor Profile Modal
+        function lockModalScroll() {
+            document.body.classList.add('modal-open');
+        }
+
+        function unlockModalScroll() {
+            document.body.classList.remove('modal-open');
+        }
+
         function openVendorModal(id) {
             const vendor = vendors.find(v => v.id === id);
             if (!vendor) return;
@@ -691,7 +1026,7 @@
             const modalContent = document.getElementById('vendorModalContent');
             modalContent.innerHTML = `
                 <div class="relative h-64 bg-slate-900">
-                    <img src="${vendor.image}" class="w-full h-full object-cover opacity-80">
+                    <img src="${vendor.image}" alt="${vendor.name}" width="800" height="480" loading="eager" decoding="async" class="w-full h-full object-cover opacity-80">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
                     <div class="absolute bottom-6 left-6 right-6 text-white">
                         <span class="px-2.5 py-1 rounded-full bg-biz-blue text-white text-xs font-bold uppercase tracking-wider mb-2 inline-block">${vendor.category}</span>
@@ -716,7 +1051,7 @@
                     <div>
                         <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Portfolio Preview</h4>
                         <div class="grid grid-cols-2 gap-3">
-                            ${vendor.portfolio.map(img => `<img src="${img}" class="rounded-xl h-32 w-full object-cover border border-slate-200">`).join('')}
+                            ${vendor.portfolio.map(img => `<img src="${img}" alt="${vendor.name} portfolio image" width="600" height="320" loading="lazy" decoding="async" class="rounded-xl h-32 w-full object-cover border border-slate-200">`).join('')}
                         </div>
                     </div>
 
@@ -725,17 +1060,19 @@
                             <span class="block text-xs text-slate-400 font-medium">Starting Package</span>
                             <span class="text-lg font-extrabold text-slate-900">${vendor.startingPrice}</span>
                         </div>
-                        <a href="https://wa.me/${vendor.phone}?text=Hi%20${encodeURIComponent(vendor.name)},%20I%20am%20interested%20in%20your%20services!" target="_blank" class="px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm shadow-lg flex items-center gap-2">
+                        <a href="https://wa.me/${vendor.phone}?text=Hi%20${encodeURIComponent(vendor.name)},%20I%20am%20interested%20in%20your%20services!" target="_blank" rel="noopener noreferrer" class="px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm shadow-lg flex items-center gap-2">
                             <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp Direct
                         </a>
                     </div>
                 </div>
             `;
             document.getElementById('vendorModal').classList.remove('hidden');
+            lockModalScroll();
         }
 
         function closeVendorModal() {
             document.getElementById('vendorModal').classList.add('hidden');
+            unlockModalScroll();
         }
 
         // Register Modal
@@ -744,10 +1081,12 @@
                 document.getElementById('planSelect').value = tier;
             }
             document.getElementById('registerModal').classList.remove('hidden');
+            lockModalScroll();
         }
 
         function closeRegisterModal() {
             document.getElementById('registerModal').classList.add('hidden');
+            unlockModalScroll();
         }
 
         function handleVendorSubmit(e) {
@@ -759,16 +1098,44 @@
         // Pricing Modal
         function openPricingModal() {
             document.getElementById('pricingModal').classList.remove('hidden');
+            lockModalScroll();
         }
 
         function closePricingModal() {
             document.getElementById('pricingModal').classList.add('hidden');
+            unlockModalScroll();
         }
 
+        // Close modals when tapping the backdrop or pressing Escape.
+        ['vendorModal', 'registerModal', 'pricingModal'].forEach(id => {
+            const modal = document.getElementById(id);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    if (id === 'vendorModal') closeVendorModal();
+                    if (id === 'registerModal') closeRegisterModal();
+                    if (id === 'pricingModal') closePricingModal();
+                }
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key !== 'Escape') return;
+            if (!document.getElementById('vendorModal').classList.contains('hidden')) closeVendorModal();
+            if (!document.getElementById('registerModal').classList.contains('hidden')) closeRegisterModal();
+            if (!document.getElementById('pricingModal').classList.contains('hidden')) closePricingModal();
+        });
+
+        // Debounce text search to avoid rebuilding the vendor grid on every keystroke.
+        let searchTimer;
+        document.getElementById('searchInput').addEventListener('input', () => {
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(applyFilters, 120);
+        });
+
         // Initial Load
-        window.onload = function() {
+        document.addEventListener('DOMContentLoaded', () => {
             renderVendors(vendors);
-        };
+        });
     </script>
 </body>
 </html>
